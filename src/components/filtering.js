@@ -27,7 +27,17 @@ export function initFiltering(elements, indexes) {
             state[action.dataset.field] = ''; 
         }
 
+        // Объединяем поля для правила arrayAsRange
+        const filterState = {
+            ...state,
+            total: [
+                state.totalFrom ? parseFloat(state.totalFrom) : '',
+                state.totalTo ? parseFloat(state.totalTo) : ''
+            ]
+        };
+
         // @todo: #4.5 — отфильтровать данные используя компаратор
-        return data.filter(row => compare(row, state));
+        // Передаем подготовленный filterState вместо оригинального state
+        return data.filter(row => compare(row, filterState));
     }
 }
